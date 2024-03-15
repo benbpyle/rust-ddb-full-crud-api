@@ -1,0 +1,3 @@
+[workspace]
+members = ["lambdas/shared", "lambdas/post", "lambdas/get-by-id"]
+resolver = "2"

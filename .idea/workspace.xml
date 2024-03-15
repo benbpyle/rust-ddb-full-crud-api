@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="CargoProjects">
+    <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c1352aae-d9b4-4078-b3f5-ad93337c8c37" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cargo/config.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infra/lib/constructs/api-gateway-construct.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infra/lib/constructs/get-by-id-function-construct.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infra/lib/constructs/post-function-construct.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infra/lib/constructs/table-construct.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/infra/lib/data-interaces/function-props.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/get-by-id/Cargo.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/get-by-id/src/data.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/get-by-id/src/main.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/get-by-id/test-events/request-one.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/post/Cargo.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/post/src/data.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/post/src/main.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/post/test-events/request-one.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/shared/Cargo.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/shared/src/clients/lambda_ddb_client.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/shared/src/clients/mod.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/shared/src/http/mod.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/shared/src/lib.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/shared/src/models/dto.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/shared/src/models/entities.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/shared/src/models/errors.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lambdas/shared/src/models/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/full-dynamodb-api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/infra/bin/full-dynamodb-api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk.json" beforeDir="false" afterPath="$PROJECT_DIR$/cdk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/full-dynamodb-api-stack.ts" beforeDir="false" afterPath="$PROJECT_DIR$/infra/lib/full-dynamodb-api-stack.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/full-dynamodb-api.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/infra/test/full-dynamodb-api.test.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+        <option value="TypeScript File" />
+        <option value="Rust File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="as71nc8p" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2dVIxKCRMSd7OcpN4knisCm5NSx" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.rust.reset.selective.auto.import": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/benjamen/Development/rust/full-dynamodb-api/lambdas/get-by-id",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
+    "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
+    "ts.external.directory.path": "/Users/benjamen/Development/rust/full-dynamodb-api/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lambdas/get-by-id" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lambdas/shared/src/models" />
+      <recent name="$PROJECT_DIR$/lambdas" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/infra" />
+    </key>
+  </component>
+  <component name="RsExternalLinterProjectSettings">
+    <option name="runOnTheFly" value="true" />
+  </component>
+  <component name="RustProjectSettings">
+    <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c1352aae-d9b4-4078-b3f5-ad93337c8c37" name="Changes" comment="" />
+      <created>1710087065040</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1710087065040</updated>
+      <workItem from="1710087066078" duration="13506000" />
+      <workItem from="1710176761732" duration="6382000" />
+      <workItem from="1710205122993" duration="2791000" />
+      <workItem from="1710357888953" duration="16000" />
+      <workItem from="1710376169921" duration="5140000" />
+      <workItem from="1710423750961" duration="1311000" />
+      <workItem from="1710453444609" duration="2857000" />
+      <workItem from="1710507324192" duration="19348000" />
+      <workItem from="1710534131642" duration="185000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

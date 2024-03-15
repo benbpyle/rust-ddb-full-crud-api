@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/full-dynamodb-api.ts",
+  "app": "npx ts-node --prefer-ts-exts infra/bin/full-dynamodb-api.ts",
   "watch": {
     "include": [
       "**"

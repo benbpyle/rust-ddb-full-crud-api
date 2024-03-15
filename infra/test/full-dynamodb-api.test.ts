@@ -1,9 +1,9 @@
-// import * as cdk from 'aws-cdk-lib';
-// import { Template } from 'aws-cdk-lib/assertions';
-// import * as FullDynamodbApi from '../lib/full-dynamodb-api-stack';
+// import * as cdk from 'aws-cdk-shared';
+// import { Template } from 'aws-cdk-shared/assertions';
+// import * as FullDynamodbApi from '../shared/full-dynamodb-api-stack';
 
 // example test. To run these tests, uncomment this file along with the
-// example resource in lib/full-dynamodb-api-stack.ts
+// example resource in shared/full-dynamodb-api-stack.ts
 test('SQS Queue Created', () => {
 //   const app = new cdk.App();
 //     // WHEN
