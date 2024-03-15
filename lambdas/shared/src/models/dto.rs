@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize, Serializer};
 use svix_ksuid::{Ksuid, KsuidLike};
 
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct BasicEntityViewDto {
     pub id: String,
     pub name: String,
