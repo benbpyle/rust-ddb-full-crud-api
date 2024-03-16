@@ -1,54 +1,30 @@
 mod data;
 extern crate shared;
 
-use crate::data::get_item;
 use aws_sdk_dynamodb::Client;
+use data::get_items;
 use lambda_http::{
     http::{Response, StatusCode},
     run, service_fn, Error, IntoResponse, Request, RequestExt,
 };
-use serde_json::json;
-use shared::models::dto::BasicEntityViewDto;
 use tracing::metadata::LevelFilter;
 use tracing_subscriber::{layer::SubscriberExt as _, util::SubscriberInitExt as _, Layer};
 
-async fn function_handler(
+async fn handler(
     table_name: &str,
     client: &Client,
     request: Request,
 ) -> Result<impl IntoResponse, Error> {
-    let path_id = request
-        .path_parameters_ref()
-        .and_then(|params| params.first("id"));
-
-    let mut status_code = StatusCode::OK;
-    let mut body = json!("").to_string();
-
-    match path_id {
-        Some(id) => {
-            let item: Result<
-                shared::models::entities::BasicEntity,
-                shared::models::errors::QueryError,
-            > = get_item(client, table_name, id).await;
-            match item {
-                Ok(i) => {
-                    let dto = BasicEntityViewDto::from(i);
-                    body = serde_json::to_string(&dto).unwrap();
-                }
-                Err(_) => {
-                    status_code = StatusCode::NOT_FOUND;
-                }
-            }
-        }
-        None => {
-            status_code = StatusCode::NOT_FOUND;
-        }
-    }
-
+    let last_key = request
+        .query_string_parameters_ref()
+        .and_then(|params| params.first("lk"))
+        .unwrap_or_else(|| "")
+        .to_string();
+    let found_items = get_items(client, table_name, 10, last_key).await;
     let response = Response::builder()
-        .status(status_code)
+        .status(StatusCode::OK)
         .header("Content-Type", "application/json")
-        .body(body)
+        .body(serde_json::to_string(&found_items.unwrap()).unwrap())
         .map_err(Box::new)?;
     Ok(response)
 }
@@ -69,7 +45,7 @@ async fn main() -> Result<(), Error> {
     let shared_client = &client;
 
     run(service_fn(move |event: Request| async move {
-        function_handler(table_name, shared_client, event).await
+        handler(table_name, shared_client, event).await
     }))
     .await
 }

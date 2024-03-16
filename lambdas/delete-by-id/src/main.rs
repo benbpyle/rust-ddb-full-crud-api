@@ -2,38 +2,47 @@ mod data;
 extern crate shared;
 
 use crate::data::delete_item;
-use aws_lambda_events::apigw::{ApiGatewayProxyRequest, ApiGatewayProxyResponse};
 use aws_sdk_dynamodb::Client;
-use lambda_runtime::{run, service_fn, Error, LambdaEvent};
+use lambda_http::{
+    http::{Response, StatusCode},
+    run, service_fn, Error, IntoResponse, Request, RequestExt,
+};
 use shared::models::errors::QueryError;
-use std::collections::hash_map::Entry::{Occupied, Vacant};
 use tracing::metadata::LevelFilter;
 use tracing_subscriber::{layer::SubscriberExt as _, util::SubscriberInitExt as _, Layer};
 
 async fn function_handler(
     table_name: &str,
     client: &Client,
-    mut event: LambdaEvent<ApiGatewayProxyRequest>,
-) -> Result<ApiGatewayProxyResponse, Error> {
-    match event.payload.path_parameters.entry("id".to_string()) {
-        Occupied(o) => {
-            let id = o.into_mut();
+    request: Request,
+) -> Result<impl IntoResponse, Error> {
+    let path_id = request
+        .path_parameters_ref()
+        .and_then(|params| params.first("id"));
+
+    let mut status_code = StatusCode::NO_CONTENT;
+
+    match path_id {
+        Some(id) => {
             let i: Result<(), QueryError> = delete_item(client, table_name, id).await;
-            let mut status_code = 200;
             match i {
                 Ok(_) => {}
                 Err(_) => {
-                    status_code = 404;
+                    status_code = StatusCode::NOT_FOUND;
                 }
             }
-            let resp = shared::http::new_response("".to_string(), status_code);
-            Ok(resp)
         }
-        Vacant(_) => {
-            let resp = shared::http::new_response("".to_string(), 404);
-            Ok(resp)
+        None => {
+            status_code = StatusCode::NOT_FOUND;
         }
     }
+
+    let response = Response::builder()
+        .status(status_code)
+        .header("Content-Type", "application/json")
+        .body("".to_string())
+        .map_err(Box::new)?;
+    Ok(response)
 }
 
 #[tokio::main]
@@ -51,10 +60,8 @@ async fn main() -> Result<(), Error> {
     let table_name = &std::env::var("TABLE_NAME").expect("TABLE_NAME must be set");
     let shared_client = &client;
 
-    run(service_fn(
-        move |event: LambdaEvent<ApiGatewayProxyRequest>| async move {
-            function_handler(table_name, shared_client, event).await
-        },
-    ))
+    run(service_fn(move |event: Request| async move {
+        function_handler(table_name, shared_client, event).await
+    }))
     .await
 }

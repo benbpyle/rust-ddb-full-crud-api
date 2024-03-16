@@ -3,41 +3,55 @@ mod data;
 extern crate shared;
 
 use crate::data::create_item;
-use aws_lambda_events::apigw::{ApiGatewayProxyRequest, ApiGatewayProxyResponse};
 use aws_sdk_dynamodb::Client;
-use lambda_runtime::{run, service_fn, Error, LambdaEvent};
+use lambda_http::{
+    http::{Response, StatusCode},
+    run, service_fn, Error, IntoResponse, Request, RequestPayloadExt,
+};
+use serde_json::json;
 use shared::models::dto::{BasicEntityCreateDto, BasicEntityViewDto};
 use shared::models::entities::BasicEntity;
+use tracing::error;
 use tracing::metadata::LevelFilter;
-use tracing::{error, info};
 use tracing_subscriber::{layer::SubscriberExt as _, util::SubscriberInitExt as _, Layer};
 
 async fn function_handler(
     table_name: &str,
     client: &Client,
-    event: LambdaEvent<ApiGatewayProxyRequest>,
-) -> Result<ApiGatewayProxyResponse, Error> {
-    let body = event.payload.body.unwrap();
-    let j: BasicEntityCreateDto = serde_json::from_str(&body).unwrap();
-    let e: BasicEntity = j.into();
-    let r = create_item(client, table_name, e).await;
+    event: Request,
+) -> Result<impl IntoResponse, Error> {
+    let body = event.payload::<BasicEntityCreateDto>()?;
+    let mut return_body = json!("").to_string();
+    let mut status_code = StatusCode::OK;
 
-    match r {
-        Ok(v) => {
-            info!("(Response)={:?}", v);
-            let id = v.get_id();
-            let dto = BasicEntityViewDto::from(v);
-            Ok(shared::http::new_content_created_response(
-                serde_json::to_string(&dto).unwrap(),
-                201,
-                id,
-            ))
+    match body {
+        Some(v) => {
+            let e: BasicEntity = v.into();
+            let r = create_item(client, table_name, e).await;
+
+            match r {
+                Ok(v) => {
+                    let dto = BasicEntityViewDto::from(v);
+                    return_body = serde_json::to_string(&dto).unwrap();
+                }
+                Err(e) => {
+                    error!("Error saving entity: {}", e);
+                    status_code = StatusCode::BAD_REQUEST;
+                    return_body = serde_json::to_string("Error saving entity").unwrap()
+                }
+            }
         }
-        Err(e) => {
-            error!("(Error)={:?}", e);
-            Ok(shared::http::new_response("".to_string(), 500))
+        None => {
+            status_code = StatusCode::BAD_REQUEST;
         }
     }
+
+    let response = Response::builder()
+        .status(status_code)
+        .header("Content-Type", "application/json")
+        .body(return_body)
+        .map_err(Box::new)?;
+    Ok(response)
 }
 
 #[tokio::main]
@@ -55,10 +69,8 @@ async fn main() -> Result<(), Error> {
     let table_name = &std::env::var("TABLE_NAME").expect("TABLE_NAME must be set");
     let shared_client = &client;
 
-    run(service_fn(
-        move |event: LambdaEvent<ApiGatewayProxyRequest>| async move {
-            function_handler(table_name, shared_client, event).await
-        },
-    ))
+    run(service_fn(move |event: Request| async move {
+        function_handler(table_name, shared_client, event).await
+    }))
     .await
 }

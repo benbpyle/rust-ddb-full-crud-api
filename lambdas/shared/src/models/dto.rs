@@ -5,6 +5,14 @@ use svix_ksuid::{Ksuid, KsuidLike};
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct BasicEntityViewPaginated {
+    #[serde(deserialize_with = "null_to_default")]
+    pub last_evaluated_key: String,
+    pub entities: Vec<BasicEntityViewDto>,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct BasicEntityViewDto {
     pub id: String,
     pub name: String,
@@ -26,6 +34,15 @@ pub struct BasicEntityPutDto {
     pub id: String,
     pub name: String,
     pub description: String,
+}
+
+impl BasicEntityViewPaginated {
+    pub fn new(last_evaluated_key: String, entities: Vec<BasicEntityViewDto>) -> Self {
+        Self {
+            last_evaluated_key,
+            entities,
+        }
+    }
 }
 
 impl Into<BasicEntity> for BasicEntityCreateDto {

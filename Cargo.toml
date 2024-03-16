@@ -5,5 +5,6 @@ members = [
     "lambdas/get-by-id",
     "lambdas/delete-by-id",
     "lambdas/put-by-id",
+    "lambdas/get-all",
 ]
 resolver = "2"

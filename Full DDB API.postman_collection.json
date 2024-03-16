@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "052fd73c-d08b-43e7-8631-c843c9789ab2",
+		"name": "Full DDB API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1502343"
+	},
+	"item": [
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"First Name\",\n    \"description\": \"First Description\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{API_ENDPOINT}}",
+					"protocol": "https",
+					"host": [
+						"{{API_ENDPOINT}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{API_ENDPOINT}}2dkaDdUGGMKLRzzXBd4jpZhVuv2",
+					"protocol": "https",
+					"host": [
+						"{{API_ENDPOINT}}2dkaDdUGGMKLRzzXBd4jpZhVuv2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{API_ENDPOINT}}?lk=2dk5ZXz59u0dciMUmcsb3RKQ4JC",
+					"protocol": "https",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"query": [
+						{
+							"key": "lk",
+							"value": "2dk5ZXz59u0dciMUmcsb3RKQ4JC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put by ID",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"2dk7tYs6Jshccp8ZXDSxDUXnOfJ\",\n    \"name\": \"Second Name\",\n    \"description\": \"Third Description\",\n    \"createdAt\": \"2024-03-15T22:07:17+00:00\",\n    \"updatedAt\": \"2024-03-15T22:07:17+00:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{API_ENDPOINT}}2dk7tYs6Jshccp8ZXDSxDUXnOfJ",
+					"protocol": "https",
+					"host": [
+						"{{API_ENDPOINT}}2dk7tYs6Jshccp8ZXDSxDUXnOfJ"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{API_ENDPOINT}}/2dm9oBu5VaFrFJvbsGb7pmiL3Aq",
+					"protocol": "https",
+					"host": [
+						"{{API_ENDPOINT}}"
+					],
+					"path": [
+						"2dm9oBu5VaFrFJvbsGb7pmiL3Aq"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

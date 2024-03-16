@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="EMPTY_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/lambdas/delete-by-id/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lambdas/get-all/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lambdas/get-by-id/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lambdas/post/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lambdas/put-by-id/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lambdas/shared/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
