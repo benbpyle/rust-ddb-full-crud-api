@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use super::dto::BasicEntityPutDto;
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BasicEntity {
     id: String,
@@ -11,8 +13,14 @@ pub struct BasicEntity {
 }
 
 impl BasicEntity {
-
-    pub fn new(id: String, name: String, description: String, entity_type: String, created_at: i64, updated_at: i64) -> BasicEntity {
+    pub fn new(
+        id: String,
+        name: String,
+        description: String,
+        entity_type: String,
+        created_at: i64,
+        updated_at: i64,
+    ) -> BasicEntity {
         BasicEntity {
             id,
             name,
@@ -21,6 +29,12 @@ impl BasicEntity {
             created_at,
             updated_at,
         }
+    }
+
+    pub fn update_from_dto(&mut self, dto: BasicEntityPutDto) {
+        self.name = dto.name;
+        self.description = dto.description;
+        self.updated_at = chrono::Utc::now().timestamp();
     }
 
     pub fn get_id(&self) -> String {

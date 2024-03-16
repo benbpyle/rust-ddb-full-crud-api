@@ -1,3 +1,8 @@
 [workspace]
-members = ["lambdas/shared", "lambdas/post", "lambdas/get-by-id"]
+members = [
+    "lambdas/shared",
+    "lambdas/post",
+    "lambdas/get-by-id",
+    "lambdas/delete-by-id",
+]
 resolver = "2"

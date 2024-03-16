@@ -1,11 +1,11 @@
 mod data;
 extern crate shared;
 
-use crate::data::get_item;
+use crate::data::delete_item;
 use aws_lambda_events::apigw::{ApiGatewayProxyRequest, ApiGatewayProxyResponse};
 use aws_sdk_dynamodb::Client;
 use lambda_runtime::{run, service_fn, Error, LambdaEvent};
-use shared::models::dto::BasicEntityViewDto;
+use shared::models::errors::QueryError;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use tracing::metadata::LevelFilter;
 use tracing_subscriber::{layer::SubscriberExt as _, util::SubscriberInitExt as _, Layer};
@@ -18,9 +18,15 @@ async fn function_handler(
     match event.payload.path_parameters.entry("id".to_string()) {
         Occupied(o) => {
             let id = o.into_mut();
-            let item = get_item(client, table_name, id).await?;
-            let dto = BasicEntityViewDto::from(item);
-            let resp = shared::http::new_response(serde_json::to_string(&dto).unwrap(), 200);
+            let i: Result<(), QueryError> = delete_item(client, table_name, id).await;
+            let mut status_code = 200;
+            match i {
+                Ok(_) => {}
+                Err(_) => {
+                    status_code = 404;
+                }
+            }
+            let resp = shared::http::new_response("".to_string(), status_code);
             Ok(resp)
         }
         Vacant(_) => {

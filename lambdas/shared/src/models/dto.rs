@@ -14,8 +14,16 @@ pub struct BasicEntityViewDto {
     #[serde(serialize_with = "serialize_dt")]
     pub updated_at: DateTime<Utc>,
 }
+
 #[derive(Debug, Deserialize)]
 pub struct BasicEntityCreateDto {
+    pub name: String,
+    pub description: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct BasicEntityPutDto {
+    pub id: String,
     pub name: String,
     pub description: String,
 }
