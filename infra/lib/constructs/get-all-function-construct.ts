@@ -2,6 +2,7 @@ import { Construct } from "constructs";
 import { FunctionProps } from "../data-interaces/function-props";
 import { RustFunction } from "cargo-lambda-cdk";
 import { LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
+import { Architecture } from "aws-cdk-lib/aws-lambda";
 
 export class GetAllFunctionConstruct extends Construct {
 
@@ -12,6 +13,7 @@ export class GetAllFunctionConstruct extends Construct {
             functionName: 'sample-get-all',
             manifestPath: 'lambdas/get-all',
             memorySize: 256,
+            architecture: Architecture.ARM_64,
             environment: {
                 "TABLE_NAME": props.table.tableName
             }

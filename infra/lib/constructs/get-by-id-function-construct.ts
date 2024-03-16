@@ -1,7 +1,8 @@
-import {Construct} from "constructs";
-import {FunctionProps} from "../data-interaces/function-props";
-import {RustFunction} from "cargo-lambda-cdk";
-import {LambdaIntegration} from "aws-cdk-lib/aws-apigateway";
+import { Construct } from "constructs";
+import { FunctionProps } from "../data-interaces/function-props";
+import { RustFunction } from "cargo-lambda-cdk";
+import { LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
+import { Architecture } from "aws-cdk-lib/aws-lambda";
 
 export class GetByIdFunctionConstruct extends Construct {
 
@@ -12,6 +13,7 @@ export class GetByIdFunctionConstruct extends Construct {
             functionName: 'sample-get-by-id',
             manifestPath: 'lambdas/get-by-id',
             memorySize: 256,
+            architecture: Architecture.ARM_64,
             environment: {
                 "TABLE_NAME": props.table.tableName
             }
@@ -20,8 +22,8 @@ export class GetByIdFunctionConstruct extends Construct {
         props.resource
             .addMethod('GET', new LambdaIntegration(
                 func, {
-                    proxy: true
-                }));
+                proxy: true
+            }));
 
         props.table.grantReadData(func);
     }

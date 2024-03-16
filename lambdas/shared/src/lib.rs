@@ -1,3 +1,2 @@
-pub mod models;
 pub mod clients;
-pub mod http;
+pub mod models;

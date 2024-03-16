@@ -2,6 +2,7 @@ import { Construct } from "constructs";
 import { FunctionProps } from "../data-interaces/function-props";
 import { RustFunction } from "cargo-lambda-cdk";
 import { LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
+import { Architecture } from "aws-cdk-lib/aws-lambda";
 
 export class PutByIdFunctionConstruct extends Construct {
     constructor(scope: Construct, id: string, props: FunctionProps) {
@@ -11,6 +12,7 @@ export class PutByIdFunctionConstruct extends Construct {
             functionName: 'sample-put-by-id',
             manifestPath: 'lambdas/put-by-id',
             memorySize: 256,
+            architecture: Architecture.ARM_64,
             environment: {
                 "TABLE_NAME": props.table.tableName
             }

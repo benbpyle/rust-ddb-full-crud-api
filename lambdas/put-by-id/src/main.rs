@@ -1,7 +1,8 @@
 mod data;
 extern crate shared;
 use aws_sdk_dynamodb::Client;
-use data::{get_item, update_item};
+use data::get_item;
+use data::update_item;
 use lambda_http::{
     http::{Response, StatusCode},
     run, service_fn, Error, IntoResponse, Request, RequestExt, RequestPayloadExt,
@@ -19,40 +20,32 @@ async fn function_handler(
     client: &Client,
     event: Request,
 ) -> Result<impl IntoResponse, Error> {
-    let path_id = event
+    let id = event
         .path_parameters_ref()
-        .and_then(|params| params.first("id"));
+        .and_then(|params| params.first("id"))
+        .unwrap();
 
     let mut status_code = StatusCode::OK;
     let mut body = json!("").to_string();
+    let found_item = get_item(client, table_name, id).await;
 
-    match path_id {
-        Some(id) => {
-            let found_item = get_item(client, table_name, id).await;
+    match found_item {
+        Ok(item) => {
+            let j: BasicEntityPutDto = event.payload::<BasicEntityPutDto>().unwrap().unwrap();
+            let updated = update_item(client, table_name, item, j).await?;
 
-            match found_item {
-                Ok(item) => {
-                    let j: BasicEntityPutDto =
-                        event.payload::<BasicEntityPutDto>().unwrap().unwrap();
-                    let updated = update_item(client, table_name, item, j).await?;
-
-                    // prep and return
-                    let dto = BasicEntityViewDto::from(updated);
-                    body = serde_json::to_string(&dto).unwrap();
-                }
-                Err(e) => match e {
-                    QueryError::NotFound => {
-                        status_code = StatusCode::NOT_FOUND;
-                    }
-                    _ => {
-                        status_code = StatusCode::BAD_REQUEST;
-                    }
-                },
+            // prep and return
+            let dto = BasicEntityViewDto::from(updated);
+            body = serde_json::to_string(&dto).unwrap();
+        }
+        Err(e) => match e {
+            QueryError::NotFound => {
+                status_code = StatusCode::NOT_FOUND;
             }
-        }
-        None => {
-            status_code = StatusCode::BAD_REQUEST;
-        }
+            _ => {
+                status_code = StatusCode::BAD_REQUEST;
+            }
+        },
     }
 
     let response = Response::builder()

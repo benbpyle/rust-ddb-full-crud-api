@@ -17,30 +17,22 @@ async fn function_handler(
     client: &Client,
     request: Request,
 ) -> Result<impl IntoResponse, Error> {
-    let path_id = request
+    let id = request
         .path_parameters_ref()
-        .and_then(|params| params.first("id"));
+        .and_then(|params| params.first("id"))
+        .unwrap();
 
     let mut status_code = StatusCode::OK;
     let mut body = json!("").to_string();
 
-    match path_id {
-        Some(id) => {
-            let item: Result<
-                shared::models::entities::BasicEntity,
-                shared::models::errors::QueryError,
-            > = get_item(client, table_name, id).await;
-            match item {
-                Ok(i) => {
-                    let dto = BasicEntityViewDto::from(i);
-                    body = serde_json::to_string(&dto).unwrap();
-                }
-                Err(_) => {
-                    status_code = StatusCode::NOT_FOUND;
-                }
-            }
+    let item: Result<shared::models::entities::BasicEntity, shared::models::errors::QueryError> =
+        get_item(client, table_name, id).await;
+    match item {
+        Ok(i) => {
+            let dto = BasicEntityViewDto::from(i);
+            body = serde_json::to_string(&dto).unwrap();
         }
-        None => {
+        Err(_) => {
             status_code = StatusCode::NOT_FOUND;
         }
     }

@@ -1,7 +1,8 @@
-import {Construct} from "constructs";
-import {FunctionProps} from "../data-interaces/function-props";
-import {RustFunction} from "cargo-lambda-cdk";
-import {LambdaIntegration} from "aws-cdk-lib/aws-apigateway";
+import { Construct } from "constructs";
+import { FunctionProps } from "../data-interaces/function-props";
+import { RustFunction } from "cargo-lambda-cdk";
+import { LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
+import { Architecture } from "aws-cdk-lib/aws-lambda";
 
 export class PostFunctionConstruct extends Construct {
     constructor(scope: Construct, id: string, props: FunctionProps) {
@@ -11,6 +12,7 @@ export class PostFunctionConstruct extends Construct {
             functionName: 'sample-post',
             manifestPath: 'lambdas/post',
             memorySize: 256,
+            architecture: Architecture.ARM_64,
             environment: {
                 "TABLE_NAME": props.table.tableName
             }
@@ -19,8 +21,8 @@ export class PostFunctionConstruct extends Construct {
         props.resource
             .addMethod('POST', new LambdaIntegration(
                 func, {
-                    proxy: true
-                }));
+                proxy: true
+            }));
 
         props.table.grantWriteData(func);
     }
