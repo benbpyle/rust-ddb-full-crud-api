@@ -5,6 +5,7 @@ import { GetByIdFunctionConstruct } from "./constructs/get-by-id-function-constr
 import { TableConstruct } from "./constructs/table-construct";
 import { PostFunctionConstruct } from "./constructs/post-function-construct";
 import { DeleteByIdFunctionConstruct } from './constructs/delete-by-id-function-construct';
+import { PutByIdFunctionConstruct } from './constructs/put-by-id-function-construct';
 
 // import * as sqs from 'aws-cdk-shared/aws-sqs';
 
@@ -14,25 +15,32 @@ export class FullDynamodbApiStack extends cdk.Stack {
 
         const api = new ApiGatewayConstruct(this, 'ApiGatewayConstruct');
         const table = new TableConstruct(this, 'TableConstruct');
-        const getByIdFunction = new GetByIdFunctionConstruct(this, 'GetByIdFunctionConstruct',
+        new GetByIdFunctionConstruct(this, 'GetByIdFunctionConstruct',
             {
                 resource: api.idResource,
                 api: api.api,
                 table: table.table
             });
-        const postFunction = new PostFunctionConstruct(this, 'PostFunctionConstruct',
+        new PostFunctionConstruct(this, 'PostFunctionConstruct',
             {
                 resource: api.topResource,
                 api: api.api,
                 table: table.table
             }
         );
-        const deleteFunction = new DeleteByIdFunctionConstruct(this, 'DeleteByIdFunctionConstruct',
+        new DeleteByIdFunctionConstruct(this, 'DeleteByIdFunctionConstruct',
             {
                 resource: api.idResource,
                 api: api.api,
                 table: table.table
             }
-        )
+        );
+        new PutByIdFunctionConstruct(this, 'PutByIdFunctionConstruct',
+            {
+                resource: api.idResource,
+                api: api.api,
+                table: table.table
+            }
+        );
     }
 }

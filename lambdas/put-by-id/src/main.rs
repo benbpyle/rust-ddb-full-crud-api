@@ -1,11 +1,13 @@
 mod data;
 extern crate shared;
-
-use crate::data::get_item;
 use aws_lambda_events::apigw::{ApiGatewayProxyRequest, ApiGatewayProxyResponse};
 use aws_sdk_dynamodb::Client;
+use data::{get_item, update_item};
 use lambda_runtime::{run, service_fn, Error, LambdaEvent};
-use shared::models::dto::BasicEntityViewDto;
+use shared::models::{
+    dto::{BasicEntityPutDto, BasicEntityViewDto},
+    errors::QueryError,
+};
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use tracing::metadata::LevelFilter;
 use tracing_subscriber::{layer::SubscriberExt as _, util::SubscriberInitExt as _, Layer};
@@ -17,11 +19,36 @@ async fn function_handler(
 ) -> Result<ApiGatewayProxyResponse, Error> {
     match event.payload.path_parameters.entry("id".to_string()) {
         Occupied(o) => {
+            // incoming
+            let body = event.payload.body.unwrap();
             let id = o.into_mut();
-            let item = get_item(client, table_name, id).await?;
-            let dto = BasicEntityViewDto::from(item);
-            let resp = shared::http::new_response(serde_json::to_string(&dto).unwrap(), 200);
-            Ok(resp)
+
+            // operations on the models
+            let found_item = get_item(client, table_name, id).await;
+
+            match found_item {
+                Ok(item) => {
+                    let j: BasicEntityPutDto = serde_json::from_str(&body).unwrap();
+                    let updated = update_item(client, table_name, item, j).await?;
+
+                    // prep and return
+                    let dto = BasicEntityViewDto::from(updated);
+                    let resp =
+                        shared::http::new_response(serde_json::to_string(&dto).unwrap(), 200);
+
+                    Ok(resp)
+                }
+                Err(e) => match e {
+                    QueryError::NotFound => {
+                        let resp = shared::http::new_response(e.to_string(), 404);
+                        Ok(resp)
+                    }
+                    _ => {
+                        let resp = shared::http::new_response(e.to_string(), 400);
+                        Ok(resp)
+                    }
+                },
+            }
         }
         Vacant(_) => {
             let resp = shared::http::new_response("".to_string(), 404);

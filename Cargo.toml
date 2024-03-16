@@ -4,5 +4,6 @@ members = [
     "lambdas/post",
     "lambdas/get-by-id",
     "lambdas/delete-by-id",
+    "lambdas/put-by-id",
 ]
 resolver = "2"

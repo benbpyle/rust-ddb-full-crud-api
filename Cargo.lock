@@ -1437,6 +1437,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "put-by-id"
+version = "0.1.0"
+dependencies = [
+ "aws-config",
+ "aws-sdk-dynamodb",
+ "aws_lambda_events",
+ "config",
+ "lambda_runtime",
+ "serde",
+ "serde_dynamo",
+ "serde_json",
+ "shared",
+ "thiserror",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "query_map"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

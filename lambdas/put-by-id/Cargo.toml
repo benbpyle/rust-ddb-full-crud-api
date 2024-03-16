@@ -1,5 +1,5 @@
 [package]
-name = "get-by-id"
+name = "put-by-id"
 version = "0.1.0"
 edition = "2021"
 authors = ["Benjamen Pyle"]
@@ -8,14 +8,16 @@ resolver = "2"
 
 [dependencies]
 
-shared = {  path = "../shared" }
+shared = { path = "../shared" }
 
 serde = { version = "1.0.197", features = ["derive"] }
 serde_json = "1"
 serde_dynamo = { version = "4", features = ["aws-sdk-dynamodb+1"] }
 
 lambda_runtime = "0.10.0"
-aws_lambda_events = { version = "0.15.0", default-features = false, features = ["apigw"] }
+aws_lambda_events = { version = "0.15.0", default-features = false, features = [
+    "apigw",
+] }
 aws-config = { features = ["behavior-version-latest"], version = "1.0.1" }
 aws-sdk-dynamodb = "1.2.0"
 

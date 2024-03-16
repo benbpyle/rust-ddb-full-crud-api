@@ -26,9 +26,9 @@ impl From<serde_dynamo::Error> for QueryError {
 }
 
 impl<E, R> From<aws_sdk_dynamodb::error::SdkError<E, R>> for QueryError
-    where
-        E: std::fmt::Debug,
-        R: std::fmt::Debug,
+where
+    E: std::fmt::Debug,
+    R: std::fmt::Debug,
 {
     fn from(err: aws_sdk_dynamodb::error::SdkError<E, R>) -> Self {
         QueryError::DynamoSdkError(std::format!("{:?}", err))
