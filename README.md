@@ -1,12 +1,12 @@
 # A Proven and Comprehensive Pattern for Building an API with Rust and Lambda
 
-Purpose: Supports the article on Binaryheap.com
+Purpose: Supports the article on [Binaryheap.com](https://www.binaryheap.com/api-with-rust-and-lambda/)
 
 ### Dependencies
 
-    - Rust
-    - Node
-    - CDK
+-   Rust
+-   Node
+-   CDK
 
 ### Deploying
 
